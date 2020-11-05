@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div>
+    <h1 class="text-32">Welcome</h1>
+    <p class="py-4">This is a test project</p>
+    <div>
+        <p class="py-4">
+            In Production mode!, database migration possible
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block style %}
+<style lang="scss">
+    main {
+        text-align: center;
+    }
+    .text-32 {
+        font-size: 32px;
+    }
+    .flex {
+        display: flex;
+    }
+    .py-4 {
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+</style>
+{% endblock %}
