@@ -12,11 +12,12 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import django_heroku
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+ENV = 'prod'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -24,8 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'w#5&%545!vz=q@@&fdg=ixuo0m4h2niffj(5prhbl+$&fu5em%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = True if ENV != 'dev' else False
 ALLOWED_HOSTS = []
 
 
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -74,13 +75,22 @@ WSGI_APPLICATION = 'django_testing.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+CONFIG = {
+    'dev': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'prod': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ehealthtesting',
+        'USER': 'fkwkbxqtjbcpeh',
+        'PASSWORD': '494ef61a04032ae58f9c22728362a18a7b0f787dad988b18988b196224cfbe01',
+        'PORT': '5432',
+        'HOST': 'ec2-54-146-142-58.compute-1.amazonaws.com',
     }
 }
-
+DATABASES = {'default': CONFIG.get(
+    'dev') if ENV == 'dev' else CONFIG.get('prod')}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
